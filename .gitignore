@@ -1,0 +1,9 @@
+# Project files
+images/
+out/
+
+# IntelliJ project files
+.idea
+
+# Python
+__pycache__
