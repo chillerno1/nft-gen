@@ -1,0 +1,58 @@
+features:
+  - BODY
+
+
+default:
+  weight: 1
+  offset: (0, 0)
+  anchor_point: (0.5, 0.5)
+
+
+feature_settings:
+  BODY:
+    default:
+      weight: 1
+      offset: (0, -0.3)
+      anchor_point: (0.5, 0)
+      slots:
+        - feature: ARMS
+        - feature: EYES
+    1:
+      weight: 0.01
+      slots:
+        - feature: EYES
+    2:
+      slots:
+        - feature: ARMS
+          attributes:
+            default:
+              offset: (0, 0.6)
+    3:
+      weight: 0.3
+      slots:
+        - feature: ARMS
+          attributes:
+            default:
+              weight: 0  # Body3 cannot have arms
+    4:
+      slots:
+        - feature: EYES
+          attributes:
+            default:
+              weight: 0
+            1:
+              weight: 1  # Body4 can only have eyes1
+
+  ARMS:
+    default:
+      offset: (0, 0.5)
+    0:
+      weight: 2
+    1:
+      weight: 0.5
+
+  EYES:
+    default:
+      weight: 1
+      offset: (0, 0.7)
+      anchor_point: (0.5, 0)

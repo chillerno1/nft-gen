@@ -1,0 +1,4 @@
+size: 800
+background-color: "#d4c66e"
+output-dir: "./out"
+images-dir: "./images/features"
