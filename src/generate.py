@@ -1,10 +1,14 @@
+import operator
+from typing import List, Tuple
+
 from PIL import Image
 
-from attributes_handler import get_base_features
+from attributes_handler import get_base_features, get_base_slots
+from randomizer import generate_random_attr
 from utils.color_utils import colorize
 from utils.image_utils import create_background, get_image, compose
 from model.Feature import Feature
-from model.Attribute import Attribute, Species
+from model.Attribute import Attribute, Species, Slot
 from model.Monster import Monster
 from model.Position import Position
 
@@ -26,12 +30,28 @@ def generate(species: int, eyes: int, mouth: int) -> Image:
 def generate2() -> Image:
     image = create_background()
 
-    base_features = get_base_features()
+    base_slots = get_base_slots()
 
-    for feature in base_features:
-        compose(image, get_image())
+    for base_slot in base_slots:
+        fill(image, base_slot, (0.5, 0.5))
 
     return image
+
+
+def fill(image: Image, slot: Slot, base_pos: Tuple[float, float]):
+    attr = generate_random_attr(slot)
+    pos = Position(tuple(map(operator.add, base_pos, attr.offset)), attr.anchor_point)
+
+    for slot in attr.slots:
+        if slot.behind:
+            fill(image, slot, pos.point)
+
+    if attr.name != "none":
+        compose(image, get_image(attr), pos)
+
+    for slot in attr.slots:
+        if not slot.behind:
+            fill(image, slot, pos.point)
 
 
 def get_image_of_monster(monster: Monster) -> Image:

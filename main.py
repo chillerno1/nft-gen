@@ -1,11 +1,10 @@
 from random import randrange
 
-import attributes_handler
-from generate import generate
+from generate import generate, generate2
 
 
 def test():  # TODO: remove
-    attributes_handler.test()
+    generate2().show()
 
 
 def main():

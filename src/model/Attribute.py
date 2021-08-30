@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional, Tuple, List, Dict
+from typing import Optional, Tuple, List, Dict, Any
 
 from model.Feature import Feature
 from model.Position import Position
@@ -32,7 +32,8 @@ class Attribute:
 @dataclass
 class Slot:
     feature: Feature
-    attributes: Dict[str, Attribute]
+    behind: bool
+    attributes: Dict[str, Any]
 
 
 class Species(Attribute):  # TODO: remove
