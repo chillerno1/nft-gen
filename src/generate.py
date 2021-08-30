@@ -1,6 +1,6 @@
-import operator
 from typing import Tuple
 
+import numpy as np
 from PIL import Image
 
 from parse_attributes import get_base_slots
@@ -23,7 +23,7 @@ def generate() -> Image:
 
 def fill(image: Image, slot: Slot, base_pos: Tuple[float, float]):
     attribute_settings = generate_random_attr(slot)
-    pos = Position(tuple(map(operator.add, base_pos, attribute_settings.offset)), attribute_settings.anchor_point)
+    pos = Position(tuple(np.add(base_pos, attribute_settings.offset)), attribute_settings.anchor_point)
 
     for slot in attribute_settings.slots:
         if slot.behind:
