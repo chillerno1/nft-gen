@@ -4,13 +4,9 @@ from typing import List, Set
 import config
 from model.Attribute import Attribute, Slot
 from model.Feature import Feature
-from parse_attributes import _string_to_feature, _strip_extension, _get_base_attribute, data_map, default_weight, \
+from parse_attributes import _strip_extension, _get_base_attribute, data_map, default_weight, \
     default_offset, default_anchor_point, _parse_slots, _get_attribute_from_settings
 from utils.none import not_none
-
-
-def get_base_features() -> List[Feature]:
-    return list(map(_string_to_feature, data_map.get("features")))
 
 
 def get_base_slots() -> List[Slot]:

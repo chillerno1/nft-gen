@@ -3,6 +3,10 @@ import numpy as np
 import colorsys
 
 
+RGB_TO_HSV = np.vectorize(colorsys.rgb_to_hsv)
+HSV_TO_RGB = np.vectorize(colorsys.hsv_to_rgb)
+
+
 def colorize(image, hue):
     """
     Colorize PIL image `original` with the given
@@ -17,12 +21,8 @@ def colorize(image, hue):
 
 def _shift_hue(arr, hout):
     r, g, b, a = np.rollaxis(arr, axis=-1)
-    h, s, v = rgb_to_hsv(r, g, b)
+    h, s, v = RGB_TO_HSV(r, g, b)
     h = hout
-    r, g, b = hsv_to_rgb(h, s, v)
+    r, g, b = HSV_TO_RGB(h, s, v)
     arr = np.dstack((r, g, b, a))
     return arr
-
-
-rgb_to_hsv = np.vectorize(colorsys.rgb_to_hsv)
-hsv_to_rgb = np.vectorize(colorsys.hsv_to_rgb)

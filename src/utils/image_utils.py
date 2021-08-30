@@ -24,9 +24,6 @@ def _get_image_position(
         image: Image,
         position: Position
 ) -> Tuple[int, int]:
-    c = image.width * position.anchor_point[0]
-    b = background_image.width * position.x
-    a = round(b - c)
-    x = int(a)
+    x = int(round(background_image.width * position.x - image.width * position.anchor_point[0]))
     y = int(round(background_image.height * (1 - position.y) - image.height * (1 - position.anchor_point[1])))
     return x, y
