@@ -3,7 +3,7 @@ from typing import Tuple
 
 from PIL import Image
 
-from attributes_handler import get_base_slots
+from parse_attributes import get_base_slots
 from randomizer import generate_random_attr
 from utils.image_utils import create_background, get_image, compose
 from model.AttributeSettings import Slot
