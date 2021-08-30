@@ -4,7 +4,6 @@ from typing import List, Set, Dict, Hashable, Any
 import config
 from model.Attribute import Attribute
 from model.AttributeSettings import AttributeSettings, Slot
-from model.Feature import Feature
 from parse_attributes import _strip_extension, _get_base_attribute, data_map, default_weight, \
     default_offset, default_anchor_point, _parse_slots, _get_attribute_from_settings
 from utils.none import not_none
@@ -43,6 +42,6 @@ def get_attribute_from_settings_with_defaults(
     return populate_defaults(_get_attribute_from_settings(attribute_settings, attribute))
 
 
-def get_all_attribute_names(feature: Feature) -> Set[str]:
-    file_names = os.listdir(f"{config.images_dir}/{feature.name.lower()}")
+def get_all_attribute_names(feature: str) -> Set[str]:
+    file_names = os.listdir(f"{config.images_dir}/{feature}")
     return set(map(_strip_extension, file_names))

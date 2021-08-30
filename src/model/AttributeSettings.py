@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import Optional, Tuple, List, Dict, Any
 
 from model.Attribute import Attribute
-from model.Feature import Feature
 
 
 @dataclass
@@ -18,6 +17,6 @@ class AttributeSettings:
 
 @dataclass
 class Slot:
-    feature: Feature
+    feature: str
     behind: bool
     attributes: Dict[str, Any]

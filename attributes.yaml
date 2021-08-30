@@ -1,9 +1,9 @@
 features:
-  - BODY
+  - Body
 
 
 slots:
-  - feature: BODY
+  - feature: Body
 
 
 default:
@@ -13,43 +13,43 @@ default:
 
 
 feature_settings:
-  BODY:
+  Body:
     default:
       weight: 1
       offset: (0, -0.35)
       anchor_point: (0.5, 0)
       slots:
-        - feature: MOUTH
-        - feature: EYES
+        - feature: Mouth
+        - feature: Eyes
     Base:
       weight: 3
     1:
       weight: 0.01
       slots:
-        - feature: EYES
+        - feature: Eyes
     2:
       slots:
-        - feature: MOUTH
+        - feature: Mouth
           attributes:
             default:
               offset: (0, 0.6)
     3:
       weight: 0.3
       slots:
-        - feature: MOUTH
+        - feature: Mouth
           attributes:
             default:
               weight: 0  # Body3 cannot have mouth
     4:
       slots:
-        - feature: EYES
+        - feature: Eyes
           attributes:
             default:
               weight: 0
             1:
               weight: 1  # Body4 can only have eyes1
 
-  MOUTH:
+  Mouth:
     default:
       offset: (0, 0.25)
     none:
@@ -59,7 +59,7 @@ feature_settings:
     1:
       weight: 0.5
 
-  EYES:
+  Eyes:
     default:
       weight: 1
       offset: (0, 0.4)

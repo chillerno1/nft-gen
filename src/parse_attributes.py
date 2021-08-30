@@ -6,7 +6,6 @@ import yaml
 
 from model.Attribute import Attribute
 from model.AttributeSettings import AttributeSettings, Slot
-from model.Feature import Feature
 
 
 _attributes_path = "attributes.yaml"
@@ -22,15 +21,15 @@ default_anchor_point = eval(_defaults.get("anchor_point"))
 
 def _get_base_attribute(attribute: Attribute) -> AttributeSettings:
     feature_settings = data_map.get("feature_settings")
-    attributes_section = feature_settings.get(attribute.feature.name)
+    attributes_section = feature_settings.get(attribute.feature)
     attribute_settings = _get_attribute_from_settings(attributes_section, attribute)
 
     return attribute_settings
 
 
-def _get_base_attribute_settings(feature: Feature):
+def _get_base_attribute_settings(feature: str):
     feature_settings = data_map.get("feature_settings")
-    attributes_section = feature_settings.get(feature.name)
+    attributes_section = feature_settings.get(feature)
 
     return attributes_section
 
@@ -55,7 +54,7 @@ def _parse_slots(values) -> Optional[List[Slot]]:
 
 
 def _parse_slot(values) -> Slot:
-    feature = Feature[values.get("feature")]
+    feature = values.get("feature")
     behind = bool(values.get("behind", False))
     attributes_section = values.get("attributes", _get_base_attribute_settings(feature))
 

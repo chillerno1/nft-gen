@@ -14,7 +14,7 @@ def create_background() -> Image:
 def get_image(attribute_settings: AttributeSettings) -> Image:
     return Image.open(
         f"{config.images_dir}/"
-        f"{attribute_settings.attribute.feature.name.lower()}/"
+        f"{attribute_settings.attribute.feature}/"
         f"{attribute_settings.attribute.name}"
         f".png"
     )
