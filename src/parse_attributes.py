@@ -4,7 +4,8 @@ import os
 from typing import Dict, List, Hashable, Any, Optional
 import yaml
 
-from model.Attribute import Attribute, Slot
+from model.Attribute import Attribute
+from model.AttributeSettings import AttributeSettings, Slot
 from model.Feature import Feature
 
 
@@ -19,31 +20,27 @@ default_offset = eval(_defaults.get("offset"))
 default_anchor_point = eval(_defaults.get("anchor_point"))
 
 
-def _get_base_attribute(
-        feature: Feature,
-        name: str,
-) -> Attribute:
-    features = data_map.get("feature_settings")
-    attributes_section = features.get(feature.name)
-    attribute = _get_attribute_from_settings(attributes_section, name, feature)
+def _get_base_attribute(attribute: Attribute) -> AttributeSettings:
+    feature_settings = data_map.get("feature_settings")
+    attributes_section = feature_settings.get(attribute.feature.name)
+    attribute_settings = _get_attribute_from_settings(attributes_section, attribute)
 
-    return attribute
+    return attribute_settings
 
 
 def _get_base_attribute_settings(feature: Feature):
-    features = data_map.get("feature_settings")
-    attributes_section = features.get(feature.name)
+    feature_settings = data_map.get("feature_settings")
+    attributes_section = feature_settings.get(feature.name)
 
     return attributes_section
 
 
-def _get_attribute_from_settings(attribute_settings, name: str, feature: Feature) -> Attribute:
+def _get_attribute_from_settings(attribute_settings: Dict[Hashable, Any], attribute: Attribute) -> AttributeSettings:
     default_values = attribute_settings.get("default", {})
-    values = attribute_settings.get(name, {})
+    values = attribute_settings.get(attribute.name, {})
 
-    return Attribute(
-        name=name,
-        feature=feature,
+    return AttributeSettings(
+        attribute=attribute,
         weight=_get_or("weight", values, default_values),
         offset=_get_or("offset", values, default_values),
         anchor_point=_get_or("anchor_point", values, default_values),

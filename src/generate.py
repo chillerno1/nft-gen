@@ -6,7 +6,7 @@ from PIL import Image
 from attributes_handler import get_base_slots
 from randomizer import generate_random_attr
 from utils.image_utils import create_background, get_image, compose
-from model.Attribute import Slot
+from model.AttributeSettings import Slot
 from model.Position import Position
 
 
@@ -22,16 +22,16 @@ def generate() -> Image:
 
 
 def fill(image: Image, slot: Slot, base_pos: Tuple[float, float]):
-    attr = generate_random_attr(slot)
-    pos = Position(tuple(map(operator.add, base_pos, attr.offset)), attr.anchor_point)
+    attribute_settings = generate_random_attr(slot)
+    pos = Position(tuple(map(operator.add, base_pos, attribute_settings.offset)), attribute_settings.anchor_point)
 
-    for slot in attr.slots:
+    for slot in attribute_settings.slots:
         if slot.behind:
             fill(image, slot, pos.point)
 
-    if attr.name != "none":
-        compose(image, get_image(attr), pos)
+    if attribute_settings.attribute.name != "none":
+        compose(image, get_image(attribute_settings), pos)
 
-    for slot in attr.slots:
+    for slot in attribute_settings.slots:
         if not slot.behind:
             fill(image, slot, pos.point)

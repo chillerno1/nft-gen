@@ -4,6 +4,6 @@ from model.Feature import Feature
 
 
 @dataclass
-class Attr:
+class Attribute:
     name: str
     feature: Feature
