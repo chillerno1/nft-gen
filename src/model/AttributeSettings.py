@@ -19,4 +19,4 @@ class AttributeSettings:
 class Slot:
     feature: str
     behind: bool
-    attributes: Dict[str, Any]
+    attributes_section: Dict[str, Any]

@@ -25,10 +25,10 @@ def get_base_slots() -> List[Slot]:
 
 
 def get_attribute_from_settings_with_defaults(
-        attribute_settings: Dict[Hashable, Any],
+        attributes_section: Dict[str, Any],
         attribute: Attribute,
 ) -> AttributeSettings:
-    return _populate_defaults(_get_attribute_from_settings(attribute_settings, attribute))
+    return _populate_defaults(_get_attribute_from_settings(attributes_section, attribute))
 
 
 def get_all_attribute_names(feature: str) -> Set[str]:
@@ -73,9 +73,9 @@ def _get_base_attribute_settings(feature: str):
     return attributes_section
 
 
-def _get_attribute_from_settings(attribute_settings: Dict[Hashable, Any], attribute: Attribute) -> AttributeSettings:
-    default_values = attribute_settings.get("default", {})
-    values = attribute_settings.get(attribute.name, {})
+def _get_attribute_from_settings(attributes_section: Dict[str, Any], attribute: Attribute) -> AttributeSettings:
+    default_values = attributes_section.get("default", {})
+    values = attributes_section.get(attribute.name, {})
 
     return AttributeSettings(
         attribute=attribute,
@@ -100,11 +100,11 @@ def _parse_slot(values) -> Slot:
     return Slot(
         feature=feature,
         behind=behind,
-        attributes=attributes_section,
+        attributes_section=attributes_section,
     )
 
 
-def _get_or(key: str, values: Dict[Hashable, Any], default_values: Dict[Hashable, Any]):
+def _get_or(key: str, values: Dict[str, Any], default_values: Dict[str, Any]):
     it = values.get(key, None)
 
     if it is None:

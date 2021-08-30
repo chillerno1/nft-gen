@@ -14,7 +14,10 @@ def generate_random_attr(slot: Slot) -> AttributeSettings:
     weights_by_name: Dict[str, float] = {}
 
     for name in attribute_names:
-        attribute = get_attribute_from_settings_with_defaults(slot.attributes, Attribute(name=name, feature=slot.feature))
+        attribute = get_attribute_from_settings_with_defaults(
+            slot.attributes_section,
+            Attribute(name=name, feature=slot.feature),
+        )
         attributes_by_name[name] = attribute
 
         total_weight += attribute.weight
