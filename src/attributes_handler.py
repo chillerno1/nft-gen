@@ -6,6 +6,7 @@ from model.Attribute import Attribute, Slot
 from model.Feature import Feature
 from parse_attributes import _string_to_feature, _strip_extension, _get_base_attribute, data_map, default_weight, \
     default_offset, default_anchor_point, _parse_slots, _get_attribute_from_settings
+from utils.none import not_none
 
 
 def get_base_features() -> List[Feature]:
@@ -20,12 +21,12 @@ def get_attribute(
         feature: Feature,
         name: str,
 ) -> Attribute:
-    attribute = _get_base_attribute(feature, name) or Attribute(name=name, feature=feature)
+    attribute = not_none(_get_base_attribute(feature, name), Attribute(name=name, feature=feature))
 
-    attribute.weight = attribute.weight or default_weight
-    attribute.offset = attribute.offset or default_offset
-    attribute.anchor_point = attribute.anchor_point or default_anchor_point
-    attribute.slots = attribute.slots or []
+    attribute.weight = not_none(attribute.weight, default_weight)
+    attribute.offset = not_none(attribute.offset, default_offset)
+    attribute.anchor_point = not_none(attribute.anchor_point, default_anchor_point)
+    attribute.slots = not_none(attribute.slots, [])
 
     return attribute
 
@@ -33,10 +34,10 @@ def get_attribute(
 def populate_defaults(attribute: Attribute) -> Attribute:
     default = get_attribute(attribute.feature, attribute.name)
 
-    attribute.weight = attribute.weight or default.weight
-    attribute.offset = attribute.offset or default.offset
-    attribute.anchor_point = attribute.anchor_point or default.anchor_point
-    attribute.slots = attribute.slots or default.slots
+    attribute.weight = not_none(attribute.weight, default.weight)
+    attribute.offset = not_none(attribute.offset, default.offset)
+    attribute.anchor_point = not_none(attribute.anchor_point, default.anchor_point)
+    attribute.slots = not_none(attribute.slots, default.slots)
 
     return attribute
 
