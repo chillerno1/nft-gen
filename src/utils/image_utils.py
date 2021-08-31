@@ -1,5 +1,3 @@
-from typing import Tuple
-
 from PIL import Image
 
 import config
@@ -21,14 +19,5 @@ def get_image(attribute_settings: AttributeSettings) -> Image:
 
 
 def compose(background: Image, image: Image, position: Position):
-    background.paste(image, _get_image_position(background, image, position), image)
+    background.paste(image, position.point, image)
 
-
-def _get_image_position(
-        background_image: Image,
-        image: Image,
-        position: Position
-) -> Tuple[int, int]:
-    x = int(round(background_image.width * position.x - image.width * position.anchor_point[0]))
-    y = int(round(background_image.height * (1 - position.y) - image.height * (1 - position.anchor_point[1])))
-    return x, y
