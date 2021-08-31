@@ -1,6 +1,6 @@
 import numpy as np
-from PIL import Image
 
+from model.NFT import NFT
 from settings.parse_attributes import get_base_slots
 from randomizer import generate_random_attr
 from utils.image_utils import create_background, get_image, compose
@@ -8,19 +8,23 @@ from settings.AttributeSettings import Slot
 from model.Position import Position
 
 
-def generate() -> Image:
-    image = create_background()
+def generate() -> NFT:
+    background = create_background()
+    nft = NFT(background, {})
 
     base_slots = get_base_slots()
 
     for base_slot in base_slots:
-        fill(image, base_slot, Position((image.width / 2, image.height / 2)))
+        fill(nft, base_slot, Position((background.width / 2, background.height / 2)))
 
-    return image
+    return nft
 
 
-def fill(image: Image, slot: Slot, base_pos: Position):
+def fill(nft: NFT, slot: Slot, base_pos: Position):
     attribute_settings = generate_random_attr(slot)
+
+    nft.add_attribute(attribute_settings.attribute)
+
     if attribute_settings.attribute.name == "none":
         return
 
@@ -38,10 +42,10 @@ def fill(image: Image, slot: Slot, base_pos: Position):
 
     for slot in attribute_settings.slots:
         if slot.behind:
-            fill(image, slot, pos)
+            fill(nft, slot, pos)
 
-    compose(image, new_image, pos)
+    compose(nft.image, new_image, pos)
 
     for slot in attribute_settings.slots:
         if not slot.behind:
-            fill(image, slot, pos)
+            fill(nft, slot, pos)

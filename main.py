@@ -2,7 +2,10 @@ from generate import generate
 
 
 def main():
-    generate().show()
+    nft = generate()
+
+    print(nft.attributes)
+    nft.image.show()
 
 
 if __name__ == '__main__':

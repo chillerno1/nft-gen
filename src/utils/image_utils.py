@@ -6,7 +6,7 @@ from model.Position import Position
 
 
 def create_background() -> Image:
-    return Image.new(mode="RGB", size=(config.size, config.size), color=config.background_color)
+    return Image.new(mode="RGBA", size=(config.size, config.size), color=config.background_color)
 
 
 def get_image(attribute_settings: AttributeSettings) -> Image:
