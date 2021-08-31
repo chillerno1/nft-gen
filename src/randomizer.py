@@ -2,8 +2,8 @@ import random
 from typing import Dict
 
 from model.Attribute import Attribute
-from model.AttributeSettings import AttributeSettings, Slot
-from parse_attributes import get_all_attribute_names, get_attribute_from_settings_with_defaults
+from settings.AttributeSettings import AttributeSettings, Slot
+from settings.parse_attributes import get_all_attribute_names, get_attribute_from_settings_with_defaults
 
 
 def generate_random_attr(slot: Slot) -> AttributeSettings:

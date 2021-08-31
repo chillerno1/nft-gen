@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import os
-from typing import Dict, List, Hashable, Any, Optional, Set
+from typing import Dict, List, Any, Optional, Set
 import yaml
 
-import config
+from settings import config
 from model.Attribute import Attribute
-from model.AttributeSettings import AttributeSettings, Slot
+from settings.AttributeSettings import AttributeSettings, Slot
 from utils.none import not_none
 
 _attributes_path = "attributes.yaml"

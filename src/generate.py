@@ -1,10 +1,10 @@
 import numpy as np
 from PIL import Image
 
-from parse_attributes import get_base_slots
+from settings.parse_attributes import get_base_slots
 from randomizer import generate_random_attr
 from utils.image_utils import create_background, get_image, compose
-from model.AttributeSettings import Slot
+from settings.AttributeSettings import Slot
 from model.Position import Position
 
 

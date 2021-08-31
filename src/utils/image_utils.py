@@ -1,7 +1,7 @@
 from PIL import Image
 
-import config
-from model.AttributeSettings import AttributeSettings
+from settings import config
+from settings.AttributeSettings import AttributeSettings
 from model.Position import Position
 
 
