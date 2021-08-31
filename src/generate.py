@@ -3,7 +3,7 @@ import numpy as np
 from model.NFT import NFT
 from settings.parse_attributes import get_base_slots
 from randomizer import generate_random_attr
-from utils.image_utils import create_background, get_image, compose, get_shadow
+from image.image_assets import create_background, get_image, compose, get_shadow
 from settings.AttributeSettings import Slot
 from model.Position import Position
 
