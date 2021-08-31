@@ -9,6 +9,14 @@ def create_background() -> Image:
     return Image.new(mode="RGBA", size=(config.size, config.size), color=config.background_color)
 
 
+def get_shadow() -> Image:
+    return Image.open(
+        f"{config.images_dir}/"
+        f"shadow"
+        f".png"
+    )
+
+
 def get_image(attribute_settings: AttributeSettings) -> Image:
     return Image.open(
         f"{config.images_dir}/"

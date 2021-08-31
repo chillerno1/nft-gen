@@ -3,13 +3,15 @@ import numpy as np
 from model.NFT import NFT
 from settings.parse_attributes import get_base_slots
 from randomizer import generate_random_attr
-from utils.image_utils import create_background, get_image, compose
+from utils.image_utils import create_background, get_image, compose, get_shadow
 from settings.AttributeSettings import Slot
 from model.Position import Position
 
 
 def generate() -> NFT:
     background = create_background()
+    shadow = get_shadow()
+    compose(background, shadow, Position((background.width / 2, 875), (0.5, 0.5), (shadow.width, shadow.height)))
     nft = NFT(background, {})
 
     base_slots = get_base_slots()
