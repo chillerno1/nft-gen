@@ -21,18 +21,37 @@ feature_settings:
       slots:
         - feature: Mouth
         - feature: Eyes
-    Base:
-      weight: 3
-    1:
-      weight: 0.01
+    wooly:
+      weight: 1
       slots:
         - feature: Eyes
-    2:
-      slots:
+          attributes:
+            default:
+              offset: (0, -520)
         - feature: Mouth
           attributes:
             default:
-              offset: (0, -600)
+              offset: (0, -250)
+    tally:
+      slots:
+        - feature: Eyes
+          attributes:
+            default:
+              offset: (0, -560)
+        - feature: Mouth
+          attributes:
+            default:
+              offset: (0, -330)
+    tally z:
+      slots:
+        - feature: Eyes
+          attributes:
+            default:
+              offset: (0, -560)
+        - feature: Mouth
+          attributes:
+            default:
+              offset: (0, -330)
     3:
       weight: 0.3
       slots:
@@ -50,20 +69,9 @@ feature_settings:
               weight: 1  # Body4 can only have eyes1
 
   Mouth:
-    default:
-      offset: (0, -200)
-    none:
-      weight: 0
-    Open Big:
-      weight: 3
-    1:
-      weight: 0.5
+    happy:
+      weight: 1
 
   Eyes:
-    default:
+    normal:
       weight: 1
-      offset: (0, -400)
-    none:
-      weight: 0
-    One:
-      weight: 3
