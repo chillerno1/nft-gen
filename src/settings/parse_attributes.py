@@ -60,7 +60,7 @@ def _populate_defaults(attribute_settings: AttributeSettings) -> AttributeSettin
 
 def _get_base_attribute(attribute: Attribute) -> AttributeSettings:
     feature_settings = data_map.get("feature_settings")
-    attributes_section = feature_settings.get(attribute.feature)
+    attributes_section = feature_settings.get(attribute.feature, {})
     attribute_settings = _get_attribute_from_settings(attributes_section, attribute)
 
     return attribute_settings
