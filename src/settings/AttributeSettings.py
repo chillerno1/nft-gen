@@ -18,5 +18,5 @@ class AttributeSettings:
 @dataclass
 class Slot:
     feature: str
-    behind: bool
+    position: Tuple[int, int]
     attributes_section: Dict[str, Any]

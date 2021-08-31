@@ -34,7 +34,10 @@ def fill(nft: NFT, slot: Slot, base_pos: Position):
     pos = Position(
         tuple(
             np.add(
-                base_pos.base_point,
+                np.add(
+                    base_pos.base_point,
+                    slot.position,
+                ),
                 attribute_settings.offset,
             )
         ),
@@ -49,5 +52,4 @@ def fill(nft: NFT, slot: Slot, base_pos: Position):
     compose(nft.image, new_image, pos)
 
     for slot in attribute_settings.slots:
-        if not slot.behind:
-            fill(nft, slot, pos)
+        fill(nft, slot, pos)

@@ -1,5 +1,44 @@
 slots:
-  - feature: Body
+  Body:
+    position: (0, 350)
+    attributes:
+      default:
+        anchor_point: (0.5, 1)
+      Wooly:
+        slots:
+          Eyes:
+            position: (0, -520)
+          Mouth:
+            position: (0, -250)
+          Hat:
+            position: (10, -690)
+            attributes:
+              Horns:
+                offset: (-10, 30)
+      Tally:
+        slots:
+          Eyes:
+            position: (0, -560)
+          Mouth:
+            position: (0, -330)
+          Hat:
+            position: (10, -720)
+            attributes:
+              Horns:
+                weight: 1
+                offset: (-10, 20)
+      Tally Z:
+        slots:
+          Eyes:
+            position: (0, -560)
+          Mouth:
+            position: (0, -330)
+          Hat:
+            position: (10, -720)
+            attributes:
+              Horns:
+                weight: 1
+                offset: (-10, 20)
 
 
 default:
@@ -9,88 +48,12 @@ default:
 
 
 feature_settings:
-  Body:
-    default:
+  Eyes:
+    Normal:
       weight: 1
-      offset: (0, 350)
-      anchor_point: (0.5, 1)
-      slots:
-        - feature: Mouth
-        - feature: Eyes
-        - feature: Hat
-    Wooly:
-      slots:
-        - feature: Eyes
-          attributes:
-            default:
-              offset: (0, -520)
-        - feature: Mouth
-          attributes:
-            default:
-              offset: (0, -250)
-        - feature: Hat
-          behind: true
-          attributes:
-            default:
-              offset: (10, -690)
-            Horns:
-              offset: (0, -660)
-    Tally:
-      slots:
-        - feature: Eyes
-          attributes:
-            default:
-              offset: (0, -560)
-        - feature: Mouth
-          attributes:
-            default:
-              offset: (0, -330)
-        - feature: Hat
-          behind: true
-          attributes:
-            default:
-              offset: (10, -720)
-            Horns:
-              offset: (0, -700)
-    Tally Z:
-      slots:
-        - feature: Eyes
-          attributes:
-            default:
-              offset: (0, -560)
-        - feature: Mouth
-          attributes:
-            default:
-              offset: (0, -330)
-        - feature: Hat
-          behind: true
-          attributes:
-            default:
-              offset: (10, -720)
-            Horns:
-              offset: (0, -700)
-    3:
-      weight: 0.3
-      slots:
-        - feature: Mouth
-          attributes:
-            default:
-              weight: 0  # Body3 cannot have mouth
-    4:
-      slots:
-        - feature: Eyes
-          attributes:
-            default:
-              weight: 0
-            1:
-              weight: 1  # Body4 can only have eyes1
 
   Mouth:
     Happy:
-      weight: 1
-
-  Eyes:
-    Normal:
       weight: 1
 
   Hat:
