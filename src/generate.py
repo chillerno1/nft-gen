@@ -1,55 +1,78 @@
-import numpy as np
+from typing import List, Tuple
 
+import numpy as np
+from PIL.Image import Image
+
+from model.ImageData import ImageData
 from model.NFT import NFT
+from settings import config
 from settings.parse_attributes import get_base_slots
 from randomizer import generate_random_attr
-from image.image_assets import create_background, get_image, compose, get_shadow
+from image.image_assets import create_background, compose, get_shadow
 from settings.AttributeSettings import Slot
 from model.Position import Position
 
 
-def generate() -> NFT:
+def create_image(nft: NFT) -> Image:
     background = create_background()
     shadow = get_shadow()
     compose(background, shadow, Position((background.width / 2, 875), (0.5, 0.5), (shadow.width, shadow.height)))
-    nft = NFT(background, {})
 
-    base_slots = get_base_slots()
-
-    for base_slot in base_slots:
-        fill(nft, base_slot, Position((background.width / 2, background.height / 2)))
-
-    return nft
+    return nft.create_image(background)
 
 
-def fill(nft: NFT, slot: Slot, base_pos: Position):
-    attribute_settings = generate_random_attr(slot)
+def generate() -> NFT:
+    size = config.size
+    width = size
+    height = size
 
-    nft.add_attribute(attribute_settings.attribute)
+    image_data = []
+    for base_slot in get_base_slots():
+        for data in generate_for_slot(base_slot, (width / 2, height / 2))[0]:
+            image_data.append(data)
 
-    if attribute_settings.attribute.name == "none":
-        return
+    return NFT(image_data)
 
-    new_image = get_image(attribute_settings)
-    pos = Position(
-        tuple(
+
+def generate_for_slot(base_slot: Slot, base_pos: Tuple[int, int]) -> Tuple[List[ImageData], bool]:
+    settings = generate_random_attr(base_slot)
+
+    if settings.attribute.name == "none":
+        return [], False
+
+    pos = tuple(
+        np.add(
             np.add(
-                np.add(
-                    base_pos.base_point,
-                    slot.position,
-                ),
-                attribute_settings.position,
-            )
-        ),
-        attribute_settings.anchor_point,
-        (new_image.width, new_image.height),
+                base_pos,
+                base_slot.position,
+            ),
+            settings.position,
+        )
     )
 
-    for slot in attribute_settings.slots:
-        if slot.behind:
-            fill(nft, slot, pos)
+    image_data = ImageData(
+        attribute=settings.attribute,
+        position=pos,
+        anchor_point=settings.anchor_point,
+    )
 
-    compose(nft.image, new_image, pos)
+    background = []
+    foreground = []
 
-    for slot in attribute_settings.slots:
-        fill(nft, slot, pos)
+    for slot in settings.slots:
+        datas_behind = generate_for_slot(slot, pos)
+        datas = datas_behind[0]
+        behind = datas_behind[1]
+
+        if behind:
+            background.extend(datas)
+        else:
+            foreground.extend(datas)
+
+    datas = []
+
+    datas.extend(background)
+    datas.append(image_data)
+    datas.extend(foreground)
+
+    return datas, settings.behind

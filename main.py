@@ -1,12 +1,15 @@
-from generate import generate
+from generate import generate, create_image
 from settings import config
 
 
 def main():
     for n in range(1):
         nft = generate()
-        print(f"{n}: {nft.attributes}")
-        nft.image.save(f"{config.output_dir}/{n}.png")
+        image = create_image(nft)
+
+        print(f"{n}: {nft.get_properties()}")
+
+        image.save(f"{config.output_dir}/{n}.png")
 
 
 if __name__ == '__main__':

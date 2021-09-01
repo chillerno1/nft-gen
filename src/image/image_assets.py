@@ -1,8 +1,8 @@
 from PIL import Image
 
-from settings import config
-from settings.AttributeSettings import AttributeSettings
+from model.Attribute import Attribute
 from model.Position import Position
+from settings import config
 
 
 def create_background() -> Image:
@@ -17,11 +17,11 @@ def get_shadow() -> Image:
     )
 
 
-def get_image(attribute_settings: AttributeSettings) -> Image:
+def get_image(attribute: Attribute) -> Image:
     return Image.open(
         f"{config.images_dir}/"
-        f"{attribute_settings.attribute.feature}/"
-        f"{attribute_settings.attribute.name}"
+        f"{attribute.feature}/"
+        f"{attribute.name}"
         f".png"
     )
 

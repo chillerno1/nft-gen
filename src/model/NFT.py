@@ -1,18 +1,34 @@
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, List
 
 from PIL.Image import Image
 
-from model.Attribute import Attribute
+from image.image_assets import compose, get_image
+from model.ImageData import ImageData
+from model.Position import Position
 
 
 @dataclass
 class NFT:
-    image: Image
-    attributes: Dict[str, str]
+    image_data: List[ImageData]
 
-    def add_attribute(self, attribute: Attribute):
-        feature = attribute.feature
-        if feature in self.attributes:
-            raise RuntimeError(f"An attribute was already picked for the feature: {feature}")
-        self.attributes[feature] = attribute.name
+    def get_properties(self) -> Dict[str, str]:
+        d = {}
+        for data in self.image_data:
+            d[data.attribute.feature] = data.attribute.name
+        return d
+
+    def create_image(self, background: Image) -> Image:
+        image = background
+        used_features = []
+
+        for data in self.image_data:
+            if data.attribute.feature in used_features:
+                raise RuntimeError(f"Duplicate feature: {data.attribute.feature}")
+            used_features.append(data.attribute.feature)
+
+            new_image = get_image(data.attribute)
+            a = Position(data.position, data.anchor_point, (new_image.width, new_image.height))
+            compose(image, new_image, a)
+
+        return image
