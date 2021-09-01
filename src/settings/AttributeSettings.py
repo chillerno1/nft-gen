@@ -10,7 +10,7 @@ from model.Attribute import Attribute
 class AttributeSettings:
     attribute: Attribute
     weight: float
-    offset: Tuple[int, int]
+    position: Tuple[int, int]
     anchor_point: Tuple[float, float]
     slots:  List[Slot]
 

@@ -38,7 +38,7 @@ def fill(nft: NFT, slot: Slot, base_pos: Position):
                     base_pos.base_point,
                     slot.position,
                 ),
-                attribute_settings.offset,
+                attribute_settings.position,
             )
         ),
         attribute_settings.anchor_point,

@@ -14,7 +14,7 @@ base-slots:
             position: (10, -690)
             attributes:
               Horns:
-                offset: (-10, 30)
+                position: (-10, 30)
       Tally:
         slots:
           Eyes:
@@ -26,7 +26,7 @@ base-slots:
             attributes:
               Horns:
                 weight: 1
-                offset: (-10, 20)
+                position: (-10, 20)
       Tally Z:
         slots:
           Eyes:
@@ -38,7 +38,7 @@ base-slots:
             attributes:
               Horns:
                 weight: 1
-                offset: (-10, 20)
+                position: (-10, 20)
 
 
 attribute-settings:
@@ -57,5 +57,5 @@ attribute-settings:
 
 default:
   weight: 1
-  offset: (0, 0)
+  position: (0, 0)
   anchor_point: (0.5, 0.5)

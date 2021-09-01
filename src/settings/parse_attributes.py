@@ -19,7 +19,7 @@ _attribute_settings_section = get_value_safe(data_map, "attribute-settings", {})
 
 _default_name = "default"
 _default_weight = float(str(_defaults_section.get("weight", 1)))
-_default_offset = eval(str(_defaults_section.get("offset", (0, 0))))
+_default_position = eval(str(_defaults_section.get("position", (0, 0))))
 _default_anchor_point = eval(str(_defaults_section.get("anchor_point", (0, 0))))
 _default_slots = []
 
@@ -89,7 +89,7 @@ def _populate(settings: AttributeSettings, values: Dict[str, Any]) -> AttributeS
     :return: the settings
     """
     settings.weight = eval(str(get_value_safe(values, "weight", settings.weight)))
-    settings.offset = eval(str(get_value_safe(values, "offset", settings.offset)))
+    settings.position = eval(str(get_value_safe(values, "position", settings.position)))
     settings.anchor_point = eval(str(get_value_safe(values, "anchor_point", settings.anchor_point)))
     if "slots" in values.keys():
         settings.slots = _parse_slots(not_none(values.get("slots"), {}))
@@ -116,7 +116,7 @@ def _get_default_attribute_settings(attribute: Attribute) -> AttributeSettings:
     return AttributeSettings(
         attribute=attribute,
         weight=_default_weight,
-        offset=_default_offset,
+        position=_default_position,
         anchor_point=_default_anchor_point,
         slots=_default_slots,
     )
