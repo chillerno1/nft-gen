@@ -13,9 +13,9 @@ _attributes_path = "attributes.yaml"
 with open(_attributes_path) as file:
     data_map = yaml.safe_load(file)
 
-_slots_section = get_value_safe(data_map, "slots", [])
+_slots_section = get_value_safe(data_map, "base-slots", [])
 _defaults_section = get_value_safe(data_map, "default", {})
-_feature_settings_section = get_value_safe(data_map, "feature_settings", {})
+_attribute_settings_section = get_value_safe(data_map, "attribute-settings", {})
 
 _default_name = "default"
 _default_weight = float(str(_defaults_section.get("weight", 1)))
@@ -77,7 +77,7 @@ def _get_base_attributes_section(feature: str) -> Dict[str, Any]:
     :param feature: the feature to get the attribute settings for
     :return: a section of attribute settings
     """
-    return get_value_safe(_feature_settings_section, feature, {})
+    return get_value_safe(_attribute_settings_section, feature, {})
 
 
 def _populate(settings: AttributeSettings, values: Dict[str, Any]) -> AttributeSettings:

@@ -1,4 +1,4 @@
-slots:
+base-slots:
   Body:
     position: (0, 350)
     attributes:
@@ -41,13 +41,7 @@ slots:
                 offset: (-10, 20)
 
 
-default:
-  weight: 1
-  offset: (0, 0)
-  anchor_point: (0.5, 0.5)
-
-
-feature_settings:
+attribute-settings:
   Eyes:
     Normal:
       weight: 1
@@ -59,3 +53,9 @@ feature_settings:
   Hat:
     none:
       weight: 3
+
+
+default:
+  weight: 1
+  offset: (0, 0)
+  anchor_point: (0.5, 0.5)
