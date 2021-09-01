@@ -6,6 +6,7 @@ from PIL.Image import Image
 from image.image_assets import compose, get_image
 from model.ImageData import ImageData
 from model.Position import Position
+from settings import config
 
 
 @dataclass
@@ -27,7 +28,7 @@ class NFT:
                 raise RuntimeError(f"Duplicate feature: {data.attribute.feature}")
             used_features.append(data.attribute.feature)
 
-            new_image = get_image(data.attribute)
+            new_image = get_image(data.attribute, config.assets_scale)
             position = Position(data.position, data.anchor_point, (new_image.width, new_image.height))
             compose(image, new_image, position)
 
