@@ -3,10 +3,10 @@ from typing import Dict, List
 
 from PIL.Image import Image
 
-from image.image_assets import compose, get_image
-from model.ImageData import ImageData
-from model.Position import Position
-from settings import config
+from nftgen.image.image_assets import compose, get_image
+from nftgen.model.ImageData import ImageData
+from nftgen.model.Position import Position
+from nftgen.settings import config
 
 
 @dataclass

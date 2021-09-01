@@ -3,10 +3,10 @@ from typing import Dict, Any, List, Optional, Set
 
 import yaml
 
-from model.Attribute import Attribute
-from settings import config
-from settings.AttributeSettings import Slot, AttributeSettings
-from utils.none import get_value_safe, not_none
+from nftgen.model.Attribute import Attribute
+from nftgen.settings import config
+from nftgen.settings.AttributeSettings import Slot, AttributeSettings
+from nftgen.utils.none import get_value_safe, not_none
 
 _attributes_path = "attributes.yaml"
 

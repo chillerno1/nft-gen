@@ -3,14 +3,14 @@ from typing import List, Tuple
 import numpy as np
 from PIL.Image import Image
 
-from model.ImageData import ImageData
-from model.NFT import NFT
-from settings import config
-from settings.parse_attributes import get_base_slots
-from randomizer import generate_random_attr
-from image.image_assets import create_background, compose, get_shadow
-from settings.AttributeSettings import Slot
-from model.Position import Position
+from nftgen.model.ImageData import ImageData
+from nftgen.model.NFT import NFT
+from nftgen.settings import config
+from nftgen.settings.parse_attributes import get_base_slots
+from nftgen.randomizer import generate_random_attr
+from nftgen.image.image_assets import create_background, compose, get_shadow
+from nftgen.settings.AttributeSettings import Slot
+from nftgen.model.Position import Position
 
 
 def create_image(nft: NFT) -> Image:

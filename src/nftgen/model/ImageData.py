@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Tuple
 
-from model.Attribute import Attribute
+from nftgen.model.Attribute import Attribute
 
 
 @dataclass

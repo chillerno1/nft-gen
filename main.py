@@ -1,5 +1,7 @@
-from generate import generate, create_image
-from settings import config
+from pathlib import Path
+
+from nftgen.generate import generate, create_image
+from nftgen.settings import config
 
 
 def main():
@@ -9,7 +11,9 @@ def main():
 
         print(f"{nft.name}: {nft.get_properties()}")
 
-        image.save(f"{config.output_dir}/{n}.png")
+        out = config.output_dir
+        Path(out).mkdir(parents=True, exist_ok=True)
+        image.save(f"{out}/{n}.png")
 
 
 if __name__ == '__main__':

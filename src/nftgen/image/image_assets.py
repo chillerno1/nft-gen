@@ -2,9 +2,9 @@ from typing import Optional
 
 from PIL import Image
 
-from model.Attribute import Attribute
-from model.Position import Position
-from settings import config
+from nftgen.model.Attribute import Attribute
+from nftgen.model.Position import Position
+from nftgen.settings import config
 
 
 def create_background() -> Image:

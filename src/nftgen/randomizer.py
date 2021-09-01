@@ -1,8 +1,8 @@
 import random
 from typing import Dict
 
-from settings.AttributeSettings import AttributeSettings, Slot
-from settings.parse_attributes import get_settings_from_slot, get_all_attribute_names
+from nftgen.settings.AttributeSettings import AttributeSettings, Slot
+from nftgen.settings.parse_attributes import get_settings_from_slot, get_all_attribute_names
 
 
 def generate_random_attr(slot: Slot) -> AttributeSettings:

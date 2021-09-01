@@ -3,7 +3,7 @@ from typing import Optional
 from PIL import Image
 import numpy as np
 
-from image.ColorMatch import ColorMatch
+from nftgen.image.ColorMatch import ColorMatch
 
 
 def _rgb_to_hsv(rgb):

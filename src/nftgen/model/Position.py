@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from settings import config
+from nftgen.settings import config
 
 
 class Position:
