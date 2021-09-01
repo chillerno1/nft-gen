@@ -14,9 +14,10 @@ from model.Position import Position
 
 
 def create_image(nft: NFT) -> Image:
+    size = config.size
     background = create_background()
     shadow = get_shadow()
-    compose(background, shadow, Position((background.width / 2, 875), (0.5, 0.5), (shadow.width, shadow.height)))
+    compose(background, shadow, Position(np.add((size / 2, size / 2), config.shadow_position), (0.5, 0.5), (shadow.width, shadow.height)))
 
     return nft.create_image(background)
 
