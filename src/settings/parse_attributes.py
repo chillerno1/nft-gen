@@ -21,6 +21,7 @@ _default_name = "default"
 _default_weight = float(str(_defaults_section.get("weight", 1)))
 _default_position = eval(str(_defaults_section.get("position", (0, 0))))
 _default_anchor_point = eval(str(_defaults_section.get("anchor_point", (0, 0))))
+_default_behind = bool(str(_defaults_section.get("behind", False)))
 _default_slots = []
 
 
@@ -88,9 +89,10 @@ def _populate(settings: AttributeSettings, values: Dict[str, Any]) -> AttributeS
     :param values: the values to populate the settings with
     :return: the settings
     """
-    settings.weight = eval(str(get_value_safe(values, "weight", settings.weight)))
+    settings.weight = float(str(get_value_safe(values, "weight", settings.weight)))
     settings.position = eval(str(get_value_safe(values, "position", settings.position)))
     settings.anchor_point = eval(str(get_value_safe(values, "anchor_point", settings.anchor_point)))
+    settings.behind = bool(str(get_value_safe(values, "behind", settings.behind)))
     if "slots" in values.keys():
         settings.slots = _parse_slots(not_none(values.get("slots"), {}))
     return settings
@@ -118,6 +120,7 @@ def _get_default_attribute_settings(attribute: Attribute) -> AttributeSettings:
         weight=_default_weight,
         position=_default_position,
         anchor_point=_default_anchor_point,
+        behind=_default_behind,
         slots=_default_slots,
     )
 

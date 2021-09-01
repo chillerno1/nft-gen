@@ -12,6 +12,7 @@ class AttributeSettings:
     weight: float
     position: Tuple[int, int]
     anchor_point: Tuple[float, float]
+    behind: bool
     slots:  List[Slot]
 
 
