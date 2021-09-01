@@ -1,9 +1,8 @@
 import random
 from typing import Dict
 
-from model.Attribute import Attribute
 from settings.AttributeSettings import AttributeSettings, Slot
-from settings.parse_attributes import get_all_attribute_names, get_attribute_from_settings_with_defaults
+from settings.parse_attributes import get_settings_from_slot, get_all_attribute_names
 
 
 def generate_random_attr(slot: Slot) -> AttributeSettings:
@@ -14,10 +13,7 @@ def generate_random_attr(slot: Slot) -> AttributeSettings:
     weights_by_name: Dict[str, float] = {}
 
     for name in attribute_names:
-        attribute = get_attribute_from_settings_with_defaults(
-            slot.attributes_section,
-            Attribute(name=name, feature=slot.feature),
-        )
+        attribute = get_settings_from_slot(name, slot)
         attributes_by_name[name] = attribute
 
         total_weight += attribute.weight

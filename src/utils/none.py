@@ -14,11 +14,11 @@ def not_none(t: Optional[T], default: T):
     return t if t is not None else default
 
 
-def get_value_safe(section: Optional[Dict[str, Any]], key: str, default: Any = None) -> Any:
-    if section is None:
+def get_value_safe(values: Optional[Dict[str, Any]], key: str, default: Any = None) -> Any:
+    if values is None:
         return default
 
-    val = section.get(key)
+    val = values.get(key)
     if val is not None:
         return val
     return default

@@ -1,28 +1,32 @@
-from __future__ import annotations
-
 import os
-from typing import Dict, List, Any, Optional, Set
+from typing import Dict, Any, List, Optional, Set
+
 import yaml
 
-from settings import config
 from model.Attribute import Attribute
-from settings.AttributeSettings import AttributeSettings, Slot
-from utils.none import not_none, get_value_safe
+from settings import config
+from settings.AttributeSettings import Slot, AttributeSettings
+from utils.none import get_value_safe, not_none
 
 _attributes_path = "attributes.yaml"
 
 with open(_attributes_path) as file:
     data_map = yaml.safe_load(file)
 
-_defaults = data_map.get("default")
-_default_weight = _defaults.get("weight")
-_default_offset = eval(_defaults.get("offset"))
-_default_anchor_point = eval(_defaults.get("anchor_point"))
-_default_slots = {}
+_slots_section = get_value_safe(data_map, "slots", [])
+_defaults_section = get_value_safe(data_map, "default", {})
+_feature_settings_section = get_value_safe(data_map, "feature_settings", {})
+
+_default_name = "default"
+_default_weight = float(str(_defaults_section.get("weight", 1)))
+_default_offset = eval(str(_defaults_section.get("offset", (0, 0))))
+_default_anchor_point = eval(str(_defaults_section.get("anchor_point", (0, 0))))
+_default_slots = []
 
 
 def get_base_slots() -> List[Slot]:
-    return _parse_slots(data_map.get("slots"))
+    """Returns the base slots to start the generation from."""
+    return _parse_slots(_slots_section)
 
 
 def get_all_attribute_names(feature: str) -> Set[str]:
@@ -30,75 +34,92 @@ def get_all_attribute_names(feature: str) -> Set[str]:
     return set(map(_strip_extension, file_names))
 
 
-def get_attribute_from_settings_with_defaults(
-        attributes_section: Dict[str, Any],
-        attribute: Attribute,
-) -> AttributeSettings:
-    return _populate_defaults(_get_attribute_from_settings(attributes_section, attribute))
+def get_settings_from_slot(name: str, slot: Slot) -> AttributeSettings:
+    return _get_settings_from_section(Attribute(name=name, feature=slot.feature), slot.attributes_section)
 
 
-def _get_attribute_from_settings(attributes_section: Dict[str, Any], attribute: Attribute) -> AttributeSettings:
-    default_values = get_value_safe(attributes_section, "default", {})
-    values = get_value_safe(attributes_section, attribute.name, {})
+def _get_settings_from_section(attribute: Attribute, attributes_section: Dict[str, Any]) -> AttributeSettings:
+    """
+    Returns the settings for the `attribute` given the `attributes_section`. Settings not found in the given section
+    use the defaults instead.
 
-    return AttributeSettings(
-        attribute=attribute,
-        weight=_get_or("weight", values, default_values),
-        offset=_get_or("offset", values, default_values),
-        anchor_point=_get_or("anchor_point", values, default_values),
-        slots=_parse_slots(values.get("slots", default_values.get("slots"))),
-    )
+    :param attribute: the attribute to get the base settings for
+    :param attributes_section: the section to get the priority settings from
+    :return: the attribute settings
+    """
+    settings = _get_base_attribute_settings(attribute)
+    _populate(settings, get_value_safe(attributes_section, _default_name, {}))
+    _populate(settings, get_value_safe(attributes_section, attribute.name, {}))
 
-
-def _get_attribute(attribute: Attribute) -> AttributeSettings:
-    attribute = not_none(_get_base_attribute(attribute), AttributeSettings(attribute=attribute))
-
-    attribute.weight = not_none(attribute.weight, _default_weight)
-    attribute.offset = not_none(attribute.offset, _default_offset)
-    attribute.anchor_point = not_none(attribute.anchor_point, _default_anchor_point)
-    attribute.slots = not_none(attribute.slots, _default_slots)
-
-    return attribute
+    return settings
 
 
-def _populate_defaults(attribute_settings: AttributeSettings) -> AttributeSettings:
-    default = _get_attribute(attribute_settings.attribute)
+def _get_base_attribute_settings(attribute: Attribute) -> AttributeSettings:
+    """
+    Returns the base settings for the `attribute`.
 
-    attribute_settings.weight = not_none(attribute_settings.weight, default.weight)
-    attribute_settings.offset = not_none(attribute_settings.offset, default.offset)
-    attribute_settings.anchor_point = not_none(attribute_settings.anchor_point, default.anchor_point)
-    attribute_settings.slots = not_none(attribute_settings.slots, default.slots)
+    :param attribute: the attribute to get the base settings for
+    :return: the attribute settings
+    """
+    base_section = _get_base_attributes_section(attribute.feature)
 
-    return attribute_settings
+    settings = _get_default_attribute_settings(attribute)
+    _populate(settings, get_value_safe(base_section, _default_name, {}))
+    _populate(settings, get_value_safe(base_section, attribute.name, {}))
 
-
-def _get_base_attribute(attribute: Attribute) -> AttributeSettings:
-    return _get_attribute_from_settings(_get_base_attributes_section(attribute.feature), attribute)
+    return settings
 
 
 def _get_base_attributes_section(feature: str) -> Dict[str, Any]:
-    feature_settings = data_map.get("feature_settings")
-    return get_value_safe(feature_settings, feature, {})
+    """
+    Returns the base section of attribute settings for the `feature`.
+
+    :param feature: the feature to get the attribute settings for
+    :return: a section of attribute settings
+    """
+    return get_value_safe(_feature_settings_section, feature, {})
 
 
-def _parse_slots(values) -> Optional[List[Slot]]:
-    values = not_none(values, {})
-    return [_parse_slot(feature, not_none(values.get(feature), {})) for feature in values]
+def _populate(settings: AttributeSettings, values: Dict[str, Any]) -> AttributeSettings:
+    """
+    Populates the `settings` with the `values` ignoring ones that are not present.
+
+    :param settings: the settings to populate
+    :param values: the values to populate the settings with
+    :return: the settings
+    """
+    settings.weight = eval(str(get_value_safe(values, "weight", settings.weight)))
+    settings.offset = eval(str(get_value_safe(values, "offset", settings.offset)))
+    settings.anchor_point = eval(str(get_value_safe(values, "anchor_point", settings.anchor_point)))
+    if "slots" in values.keys():
+        settings.slots = _parse_slots(not_none(values.get("slots"), {}))
+    return settings
+
+
+def _parse_slots(slots_section: Dict[str, Any]) -> Optional[List[Slot]]:
+    return [_parse_slot(feature, not_none(slots_section.get(feature), {})) for feature in slots_section]
 
 
 def _parse_slot(feature: str, values: Dict[str, Any]) -> Slot:
-    position = eval(values.get("position", "(0, 0)"))
+    position = not_none(eval(str(values.get("position"))), (0, 0))
     attributes_section = get_value_safe(values, "attributes", {})
     return Slot(feature, position, attributes_section)
 
 
-def _get_or(key: str, values: Dict[str, Any], default_values: Dict[str, Any]):
-    it = values.get(key)
+def _get_default_attribute_settings(attribute: Attribute) -> AttributeSettings:
+    """
+    Returns a new `AttributeSettings` for the `attribute` populated with the global default values.
 
-    if it is None:
-        it = default_values.get(key)
-
-    return eval(str(it))
+    :param attribute: the attribute to create the settings for
+    :return: the created attribute settings
+    """
+    return AttributeSettings(
+        attribute=attribute,
+        weight=_default_weight,
+        offset=_default_offset,
+        anchor_point=_default_anchor_point,
+        slots=_default_slots,
+    )
 
 
 def _strip_extension(file_name) -> str:
