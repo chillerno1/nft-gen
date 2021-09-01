@@ -1,44 +1,44 @@
 base-slots:
   Body:
-    position: (0, 350)
+    position: (0, 0.32)
     attributes:
       default:
         anchor_point: (0.5, 1)
       Wooly:
         slots:
           Eyes:
-            position: (0, -520)
+            position: (0, -0.48)
           Mouth:
-            position: (0, -250)
+            position: (0, -0.23)
           Hat:
-            position: (10, -690)
+            position: (0.01, -0.64)
             attributes:
               Horns:
-                position: (-10, 30)
+                position: (-0.01, 0.03)
       Tally:
         slots:
           Eyes:
-            position: (0, -560)
+            position: (0, -0.52)
           Mouth:
-            position: (0, -330)
+            position: (0, -0.31)
           Hat:
-            position: (10, -720)
+            position: (0.01, -0.67)
             attributes:
               Horns:
                 weight: 1
-                position: (-10, 20)
+                position: (-0.01, 0.02)
       Tally Z:
         slots:
           Eyes:
-            position: (0, -560)
+            position: (0, -0.52)
           Mouth:
-            position: (0, -330)
+            position: (0, -0.31)
           Hat:
-            position: (10, -720)
+            position: (0.01, -0.67)
             attributes:
               Horns:
                 weight: 1
-                position: (-10, 20)
+                position: (-0.01, 0.02)
 
 
 attribute-settings:
@@ -53,6 +53,12 @@ attribute-settings:
   Hat:
     none:
       weight: 3
+    Horns:
+      behind: True
+    Antenna Eyes:
+      behind: True
+    Antenna Eyes Z:
+      behind: True
 
 
 default:

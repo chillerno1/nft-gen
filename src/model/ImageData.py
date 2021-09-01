@@ -7,5 +7,5 @@ from model.Attribute import Attribute
 @dataclass
 class ImageData:
     attribute: Attribute
-    position: Tuple[int, int]
+    position: Tuple[float, float]
     anchor_point: Tuple[float, float]

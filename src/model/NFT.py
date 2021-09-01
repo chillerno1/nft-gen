@@ -28,7 +28,7 @@ class NFT:
             used_features.append(data.attribute.feature)
 
             new_image = get_image(data.attribute)
-            a = Position(data.position, data.anchor_point, (new_image.width, new_image.height))
-            compose(image, new_image, a)
+            position = Position(data.position, data.anchor_point, (new_image.width, new_image.height))
+            compose(image, new_image, position)
 
         return image

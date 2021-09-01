@@ -10,7 +10,7 @@ from model.Attribute import Attribute
 class AttributeSettings:
     attribute: Attribute
     weight: float
-    position: Tuple[int, int]
+    position: Tuple[float, float]
     anchor_point: Tuple[float, float]
     behind: bool
     slots:  List[Slot]
@@ -19,5 +19,5 @@ class AttributeSettings:
 @dataclass
 class Slot:
     feature: str
-    position: Tuple[int, int]
+    position: Tuple[float, float]
     attributes_section: Dict[str, Any]

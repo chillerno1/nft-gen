@@ -1,5 +1,5 @@
 size: 1080
 background-color: "#d4c66e"
-shadow-position: (0, 335)
+shadow-position: (0, 0.31)
 output-dir: "./out"
 images-dir: "./images/features"
