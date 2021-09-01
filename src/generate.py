@@ -25,13 +25,13 @@ def create_image(nft: NFT) -> Image:
     return nft.create_image(background)
 
 
-def generate() -> NFT:
+def generate(name: str) -> NFT:
     image_data = []
     for base_slot in get_base_slots():
         for data in generate_for_slot(base_slot, (0.5, 0.5))[0]:
             image_data.append(data)
 
-    return NFT(image_data)
+    return NFT(name, image_data)
 
 
 def generate_for_slot(base_slot: Slot, base_pos: Tuple[float, float]) -> Tuple[List[ImageData], bool]:

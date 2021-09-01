@@ -4,10 +4,10 @@ from settings import config
 
 def main():
     for n in range(1):
-        nft = generate()
+        nft = generate(str(n))
         image = create_image(nft)
 
-        print(f"{n}: {nft.get_properties()}")
+        print(f"{nft.name}: {nft.get_properties()}")
 
         image.save(f"{config.output_dir}/{n}.png")
 

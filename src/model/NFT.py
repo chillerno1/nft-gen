@@ -11,6 +11,7 @@ from settings import config
 
 @dataclass
 class NFT:
+    name: str
     image_data: List[ImageData]
 
     def get_properties(self) -> Dict[str, str]:
