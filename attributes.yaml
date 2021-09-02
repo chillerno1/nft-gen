@@ -12,9 +12,8 @@ base-slots:
             position: (0, -0.23)
           Hat:
             position: (0.01, -0.64)
-            attributes:
-              Horns:
-                position: (-0.01, 0.03)
+          Arms:
+            position: (0, -0.30)
       Tally:
         slots:
           Eyes:
@@ -23,11 +22,9 @@ base-slots:
             position: (0, -0.31)
           Hat:
             position: (0.01, -0.67)
-            attributes:
-              Horns:
-                weight: 1
-                position: (-0.01, 0.02)
-      Tally Z:
+          Arms:
+            position: (0, -0.30)
+      Bubbly:
         slots:
           Eyes:
             position: (0, -0.52)
@@ -35,10 +32,18 @@ base-slots:
             position: (0, -0.31)
           Hat:
             position: (0.01, -0.67)
-            attributes:
-              Horns:
-                weight: 1
-                position: (-0.01, 0.02)
+          Arms:
+            position: (0, -0.30)
+      Buffy:
+        slots:
+          Eyes:
+            position: (0, -0.52)
+          Mouth:
+            position: (0, -0.31)
+          Hat:
+            position: (0.01, -0.67)
+          Arms:
+            position: (0, -0.30)
 
 
 attribute-settings:
@@ -51,6 +56,17 @@ attribute-settings:
       behind: True
     Antenna Eyes Z:
       behind: True
+  Arms:
+    default:
+      behind: True
+      anchor_point: (0.5, 0.3)
+    Wooly Up:
+      anchor_point: (0.5, 0.7)
+    Tally:
+      anchor_point: (0.5, 0.4)
+    Buffy:
+      anchor_point: (0.5, 0.28)
+
 
 
 colors:

@@ -40,6 +40,5 @@ xcopy %configPath% %outputPath%
 xcopy %attributesPath% %outputPath%
 
 mkdir %outputPath%\%assetsFolder%
-xcopy %root%\%assetsFolder%\shadow.png %outputPath%\%assetsFolder%
 
 @RD /S /Q "%workPath%"
