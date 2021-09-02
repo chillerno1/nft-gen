@@ -42,14 +42,6 @@ base-slots:
 
 
 attribute-settings:
-  Eyes:
-    Normal:
-      weight: 1
-
-  Mouth:
-    Happy:
-      weight: 1
-
   Hat:
     none:
       weight: 3

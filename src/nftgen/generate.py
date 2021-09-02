@@ -15,12 +15,14 @@ from nftgen.model.Position import Position
 
 def create_image(nft: NFT) -> Image:
     background = create_background()
-    shadow = get_shadow()
-    compose(background, shadow, Position(
-        base_point=np.add((0.5, 0.5), config.shadow_position),
-        anchor_point=(0.5, 0.5),
-        size=(shadow.width, shadow.height),
-    ))
+
+    if config.shadow_position is not None:
+        shadow = get_shadow()
+        compose(background, shadow, Position(
+            base_point=np.add((0.5, 0.5), config.shadow_position),
+            anchor_point=(0.5, 0.5),
+            size=(shadow.width, shadow.height),
+        ))
 
     return nft.create_image(background)
 

@@ -31,7 +31,7 @@ def get_base_slots() -> List[Slot]:
 
 
 def get_all_attribute_names(feature: str) -> Set[str]:
-    file_names = os.listdir(f"{config.images_dir}/{feature}")
+    file_names = os.listdir(f"{config.assets_dir}/{feature}")
     return set(map(_strip_extension, file_names))
 
 

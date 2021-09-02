@@ -16,6 +16,9 @@ set data=data
 set iconImage=%root%\%data%\icon.ico
 
 
+pip install %root%\
+
+
 @RD /S /Q "%outputPath%"
 
 pyinstaller ^
@@ -31,8 +34,12 @@ pyinstaller ^
 
 set configPath=%root%\config.yaml
 set attributesPath=%root%\attributes.yaml
+set assetsFolder=Assets
 
 xcopy %configPath% %outputPath%
 xcopy %attributesPath% %outputPath%
+
+mkdir %outputPath%\%assetsFolder%
+xcopy %root%\%assetsFolder%\shadow.png %outputPath%\%assetsFolder%
 
 @RD /S /Q "%workPath%"

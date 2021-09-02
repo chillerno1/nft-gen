@@ -7,6 +7,9 @@ from nftgen.settings.parse_attributes import get_settings_from_slot, get_all_att
 
 def generate_random_attr(slot: Slot) -> AttributeSettings:
     attribute_names = get_all_attribute_names(slot.feature)
+    if len(attribute_names) == 0:
+        return get_settings_from_slot("none", slot)
+
     attributes_by_name: Dict[str, AttributeSettings] = {}
 
     total_weight = 0

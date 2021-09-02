@@ -13,7 +13,7 @@ def create_background() -> Image:
 
 def get_shadow() -> Image:
     return Image.open(
-        f"{config.images_dir}/"
+        f"{config.assets_dir}/"
         f"shadow"
         f".png"
     )
@@ -21,7 +21,7 @@ def get_shadow() -> Image:
 
 def get_image(attribute: Attribute, scale: Optional[float] = None) -> Image:
     image = Image.open(
-        f"{config.images_dir}/"
+        f"{config.assets_dir}/"
         f"{attribute.feature}/"
         f"{attribute.name}"
         f".png"

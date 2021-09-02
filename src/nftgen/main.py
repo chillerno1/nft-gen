@@ -1,4 +1,5 @@
 import sys
+import traceback
 from pathlib import Path
 
 from nftgen.command.Command import Command
@@ -18,7 +19,10 @@ def start_listening():
     while True:
         args = input(">").split()
         if len(args) > 0:
-            cm.execute(args[0], *args[1:])
+            try:
+                cm.execute(args[0], *args[1:])
+            except Exception:
+                traceback.print_exc()
 
 
 def register_commands():

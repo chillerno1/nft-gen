@@ -3,4 +3,4 @@ assets-scale: 1
 background-color: "#d4c66e"
 shadow-position: (0, 0.31)
 output-dir: "./out"
-images-dir: "./images/features"
+assets-dir: "./Assets"
