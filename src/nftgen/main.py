@@ -7,12 +7,14 @@ from nftgen.command.Command import Command
 from nftgen.command.CommandManager import CommandManager
 from nftgen.generate import create_image, generate
 from nftgen.settings import config
+from nftgen.utils import greeting
 
 cm = CommandManager()
 
 
 def main():
     register_commands()
+    greeting.greet()
     start_listening()
 
 
@@ -35,8 +37,14 @@ def register_commands():
 
     cm.register(Command(
         name="quit",
-        aliases=["q", "exit", "stop", "leave"],
+        aliases=["q", "exit", "close", "stop", "leave"],
         executor=c_quit,
+    ))
+
+    cm.register(Command(
+        name="?",
+        aliases=["help", "h", "commands"],
+        executor=c_help,
     ))
 
 
@@ -76,6 +84,15 @@ def c_generate(*args):
 
 def c_quit(*args):
     sys.exit()
+
+
+def c_help(*args):
+    print("""\
+Available commands:
+    generate [n=1]  -  Generate `n` image(s).
+    quit            -  Close the app.
+    ?               -  Get the list of available commands.\
+""")
 
 
 if __name__ == '__main__':
