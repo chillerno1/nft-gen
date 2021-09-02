@@ -60,8 +60,6 @@ def c_generate(*args):
         nft = generate(str(n))
         image = create_image(nft)
 
-        print(f"{nft.name}: {nft.get_properties()}")
-
         out = config.output_dir
         Path(out).mkdir(parents=True, exist_ok=True)
 
@@ -71,6 +69,9 @@ def c_generate(*args):
         except Exception:
             traceback.print_exc()
             warnings.warn(f"Could not save \"{image_path}\". Make sure that the file is not open in another program!")
+            continue
+
+        print(f"{nft.name}: {nft.get_properties()}")
 
 
 def c_quit(*args):
