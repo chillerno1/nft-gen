@@ -7,7 +7,7 @@ from nftgen.model.ImageData import ImageData
 from nftgen.model.NFT import NFT
 from nftgen.settings import config
 from nftgen.settings.parse_attributes import get_base_slots
-from nftgen.randomizer import generate_random_attr
+from nftgen.randomizer import generate_random_attr, generate_random_color
 from nftgen.image.image_assets import create_background, compose, get_shadow
 from nftgen.settings.AttributeSettings import Slot
 from nftgen.model.Position import Position
@@ -33,7 +33,9 @@ def generate(name: str) -> NFT:
         for data in generate_for_slot(base_slot, (0.5, 0.5))[0]:
             image_data.append(data)
 
-    return NFT(name, image_data)
+    color = generate_random_color()
+
+    return NFT(name, image_data, color)
 
 
 def generate_for_slot(base_slot: Slot, base_pos: Tuple[float, float]) -> Tuple[List[ImageData], bool]:

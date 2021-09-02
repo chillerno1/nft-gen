@@ -1,6 +1,11 @@
 size: 1080
 assets-scale: 1
-background-color: "#d4c66e"
-shadow-position: (0, 0.31)
+
 output-dir: "./out"
 assets-dir: "./Assets"
+
+background-color: "#d4c66e"
+shadow-position: (0, 0.31)
+
+# Everything with this hue gets recolored to the one specified by the attribute
+color-placeholder-hue: 0  # 0=red, 120=green, 240=blue

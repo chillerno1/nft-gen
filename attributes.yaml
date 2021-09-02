@@ -53,6 +53,19 @@ attribute-settings:
       behind: True
 
 
+colors:
+  Red:
+    color: ff0000
+  Green:
+    color: 00ff00
+  Blue:
+    color: 0000ff
+  Purple:
+    color: ff00ff
+  Orange:
+    color: ffA500
+
+
 default:
   weight: 1
   position: (0, 0)

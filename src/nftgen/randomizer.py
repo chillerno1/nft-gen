@@ -1,8 +1,8 @@
 import random
-from typing import Dict
+from typing import Dict, Tuple
 
 from nftgen.settings.AttributeSettings import AttributeSettings, Slot
-from nftgen.settings.parse_attributes import get_settings_from_slot, get_all_attribute_names
+from nftgen.settings.parse_attributes import get_settings_from_slot, get_all_attribute_names, get_colors
 
 
 def generate_random_attr(slot: Slot) -> AttributeSettings:
@@ -27,3 +27,21 @@ def generate_random_attr(slot: Slot) -> AttributeSettings:
     chosen_name = next(key for key, value in weights_by_name.items() if r < value)
 
     return attributes_by_name[chosen_name]
+
+
+def generate_random_color() -> Tuple[str, str]:
+    color_settings_by_name = get_colors()
+
+    total_weight = 0
+    weights_by_name: Dict[str, float] = {}
+
+    for settings in color_settings_by_name.values():
+        total_weight += settings.weight
+        weights_by_name[settings.name] = total_weight
+
+    r = random.uniform(0, total_weight)
+
+    chosen_name = next(key for key, value in weights_by_name.items() if r < value)
+
+    color = color_settings_by_name[chosen_name].color_code
+    return chosen_name, color

@@ -6,6 +6,7 @@ import yaml
 from nftgen.model.Attribute import Attribute
 from nftgen.settings import config
 from nftgen.settings.AttributeSettings import Slot, AttributeSettings
+from nftgen.settings.ColorSettings import ColorSettings
 from nftgen.utils.none import get_value_safe, not_none
 
 _attributes_path = "attributes.yaml"
@@ -16,6 +17,7 @@ with open(_attributes_path) as file:
 _slots_section = get_value_safe(data_map, "base-slots", [])
 _defaults_section = get_value_safe(data_map, "default", {})
 _attribute_settings_section = get_value_safe(data_map, "attribute-settings", {})
+_colors_section = get_value_safe(data_map, "colors", {})
 
 _default_name = "default"
 _default_weight = float(str(_defaults_section.get("weight", 1)))
@@ -28,6 +30,20 @@ _default_slots = []
 def get_base_slots() -> List[Slot]:
     """Returns the base slots to start the generation from."""
     return _parse_slots(_slots_section)
+
+
+def get_colors() -> Dict[str, ColorSettings]:
+    colors = {}
+    for key, value in _colors_section.items():
+        color_code = str(value.get("color")).lstrip("#").zfill(6)
+        weight = float(str(value.get("weight", _default_weight)))
+
+        colors[key] = ColorSettings(
+            name=key,
+            color_code=color_code,
+            weight=weight,
+        )
+    return colors
 
 
 def get_all_attribute_names(feature: str) -> Set[str]:

@@ -1,3 +1,4 @@
+import colorsys
 from typing import Optional
 
 from PIL import Image
@@ -55,7 +56,10 @@ def _hsv_to_rgb(hsv):
 
 def _set_hue(arr, hout, match: Optional[ColorMatch] = None):
     hsv = _rgb_to_hsv(arr)
-    hsv[..., 0] = hout
+    for x, a in enumerate(hsv[..., 0]):
+        for y, b in enumerate(a):
+            if match is None or match.is_match(b * 360):
+                hsv[..., 0][x][y] = hout
     rgb = _hsv_to_rgb(hsv)
     return rgb
 
@@ -88,7 +92,7 @@ def _rainbowify2(arr):
     return rgb
 
 
-def colorize(image, hue, match: Optional[ColorMatch] = None):
+def colorize(image, hue, match: Optional[ColorMatch] = None) -> Image:
     """
     Colorize PIL image `original` with the given
     `hue` (hue within 0-360); returns another PIL image.
@@ -110,3 +114,10 @@ def rotate_hue(image, rotation, match: Optional[ColorMatch] = None):
     new_img = Image.fromarray(_shift_hue(arr, rotation / 360., match), "RGBA")
 
     return new_img
+
+
+def rgb_to_hue(rgb: str) -> float:
+    h = rgb.lstrip("#")
+    rgb = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+    hue = colorsys.rgb_to_hsv(*rgb)[0] * 360
+    return hue
