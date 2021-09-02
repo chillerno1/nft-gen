@@ -47,7 +47,10 @@ def get_colors() -> Dict[str, ColorSettings]:
 
 
 def get_all_attribute_names(feature: str) -> Set[str]:
-    file_names = os.listdir(f"{config.assets_dir}/{feature}")
+    path = f"{config.assets_dir}/{feature}"
+    if not os.path.isdir(path):
+        return set()
+    file_names = os.listdir(path)
     return set(map(_strip_extension, file_names))
 
 
