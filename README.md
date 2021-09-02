@@ -2,7 +2,6 @@
 
 Generate NFTs with combinations of various types of properties.
 
----
 
 # Setup
 
