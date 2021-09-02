@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 
 from PIL import Image
@@ -12,11 +13,10 @@ def create_background() -> Image:
 
 
 def _get_asset(asset_name: str, scale: Optional[float] = None) -> Image:
-    image = Image.open(
-        f"{config.assets_dir}/"
-        f"{asset_name}"
-        f".png"
-    )
+    path = f"{config.assets_dir}/{asset_name}.png"
+    if not os.path.exists(path):
+        return None
+    image = Image.open(path)
     if scale is not None and scale != 1:
         image = image.resize((round(image.width * scale), round(image.height * scale)))
     return image

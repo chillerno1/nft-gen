@@ -1,19 +1,22 @@
 @echo off
 
-set name=nftgen
+set name=nft-gen
 
 REM Path to the project root directory
 set root=%cd%
 
-set mainPath=%root%\src\%name%\main.py
+set mainPath=%root%\src\nftgen\main.py
 
 set outputPath=%root%\build
 set workPath=%root%\tmp
 set specPath=%root%\tmp
 set paths=%root%\venv\Lib\site-packages
 
-set data=data
-set iconImage=%root%\%data%\icon.ico
+set iconImage=%root%\data\icon.ico
+
+set config=config.yaml
+set attributes=attributes.yaml
+set resources=resources
 
 
 pip install %root%\
@@ -27,18 +30,10 @@ pyinstaller ^
 --specpath %specPath% ^
 --name %name% ^
 --icon %iconImage% ^
+--add-data %root%\%config%;%resources% ^
+--add-data %root%\%attributes%;%resources% ^
 --onefile ^
 --noconfirm ^
 %mainPath%
-
-
-set configPath=%root%\config.yaml
-set attributesPath=%root%\attributes.yaml
-set assetsFolder=Assets
-
-xcopy %configPath% %outputPath%
-xcopy %attributesPath% %outputPath%
-
-mkdir %outputPath%\%assetsFolder%
 
 @RD /S /Q "%workPath%"
