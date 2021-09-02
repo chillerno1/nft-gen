@@ -11,24 +11,23 @@ def create_background() -> Image:
     return Image.new(mode="RGBA", size=(config.size, config.size), color=config.background_color)
 
 
-def get_shadow() -> Image:
-    return Image.open(
-        f"{config.assets_dir}/"
-        f"shadow"
-        f".png"
-    )
-
-
-def get_image(attribute: Attribute, scale: Optional[float] = None) -> Image:
+def _get_asset(asset_name: str, scale: Optional[float] = None) -> Image:
     image = Image.open(
         f"{config.assets_dir}/"
-        f"{attribute.feature}/"
-        f"{attribute.name}"
+        f"{asset_name}"
         f".png"
     )
     if scale is not None and scale != 1:
         image = image.resize((round(image.width * scale), round(image.height * scale)))
     return image
+
+
+def get_shadow() -> Image:
+    return _get_asset("shadow", config.assets_scale)
+
+
+def get_image(attribute: Attribute) -> Image:
+    return _get_asset(f"{attribute.feature}/{attribute.name}", config.assets_scale)
 
 
 def compose(background: Image, image: Image, position: Position):

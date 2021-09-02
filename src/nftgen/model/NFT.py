@@ -1,6 +1,5 @@
-import colorsys
 from dataclasses import dataclass
-from typing import Dict, List, Tuple, OrderedDict
+from typing import Dict, List, Tuple
 
 from PIL.Image import Image
 from nftgen.image.ColorMatch import ColorMatch
@@ -40,7 +39,7 @@ class NFT:
                 raise RuntimeError(f"Duplicate feature: {data.attribute.feature}")
             used_features.append(data.attribute.feature)
 
-            new_image = get_image(data.attribute, config.assets_scale)
+            new_image = get_image(data.attribute)
             new_image = colorize(new_image, rgb_to_hue(self.color[1]), ColorMatch(config.color_placeholder_hue, 1))
 
             position = Position(data.position, data.anchor_point, (new_image.width, new_image.height))
