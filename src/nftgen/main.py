@@ -16,20 +16,21 @@ def main():
 
 def start_listening():
     while True:
-        args = input().split()
-        cm.execute(args[0], *args[1:])
+        args = input(">").split()
+        if len(args) > 0:
+            cm.execute(args[0], *args[1:])
 
 
 def register_commands():
     cm.register(Command(
         name="generate",
-        aliases=["g", "gen"],
+        aliases=["g", "gen", "create", "c", "build", "b"],
         executor=c_generate,
     ))
 
     cm.register(Command(
         name="quit",
-        aliases=["q"],
+        aliases=["q", "exit", "stop", "leave"],
         executor=c_quit,
     ))
 
@@ -38,7 +39,17 @@ def c_generate(*args):
     amount = 1
 
     if len(args) > 0:
-        amount = int(args[0])
+        arg = args[0]
+        try:
+            int_arg = int(arg)
+            if int_arg > 0:
+                amount = int_arg
+            else:
+                print(f"Has to be a positive integer: \"{arg}\"")
+                return
+        except ValueError:
+            print(f"Not a number: \"{arg}\"")
+            return
 
     for n in range(amount):
         nft = generate(str(n))
