@@ -33,5 +33,5 @@ def get_image(attribute: Attribute) -> Image:
 
 
 def compose(background: Image, image: Image, position: Position):
-    background.paste(image, position.point, image)
+    background.alpha_composite(image, position.point)
 
