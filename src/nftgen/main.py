@@ -1,5 +1,6 @@
 import sys
 import traceback
+import warnings
 from pathlib import Path
 
 from nftgen.command.Command import Command
@@ -63,7 +64,13 @@ def c_generate(*args):
 
         out = config.output_dir
         Path(out).mkdir(parents=True, exist_ok=True)
-        image.save(f"{out}/{n}.png")
+
+        image_path = f"{out}/{nft.name}.png"
+        try:
+            image.save(image_path)
+        except Exception:
+            traceback.print_exc()
+            warnings.warn(f"Could not save \"{image_path}\". Make sure that the file is not open in another program!")
 
 
 def c_quit(*args):
