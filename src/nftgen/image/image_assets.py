@@ -1,4 +1,5 @@
 import os
+import warnings
 from typing import Optional
 
 from PIL import Image
@@ -15,6 +16,7 @@ def create_background() -> Image:
 def _get_asset(asset_name: str, scale: Optional[float] = None) -> Image:
     path = f"{config.assets_dir}/{asset_name}.png"
     if not os.path.exists(path):
+        warnings.warn(f"Could not find asset: {path}")
         return None
     image = Image.open(path)
     if scale is not None and scale != 1:
