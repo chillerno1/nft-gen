@@ -50,7 +50,7 @@ def get_all_attribute_names(feature: str) -> Set[str]:
     path = f"{config.assets_dir}/{feature}"
     if not os.path.isdir(path):
         return set()
-    file_names = os.listdir(path)
+    file_names = [x for x in os.listdir(path) if _get_extension(x) == ".png"]
     return set(map(_strip_extension, file_names))
 
 
@@ -146,3 +146,7 @@ def _get_default_attribute_settings(attribute: Attribute) -> AttributeSettings:
 
 def _strip_extension(file_name) -> str:
     return os.path.splitext(file_name)[0]
+
+
+def _get_extension(file_name) -> str:
+    return os.path.splitext(file_name)[1]
