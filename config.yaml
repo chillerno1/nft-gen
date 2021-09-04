@@ -1,5 +1,5 @@
-size: 1080
-assets-scale: 0.35
+size: 3086
+assets-scale: 1
 
 output-dir: "./out"
 assets-dir: "./Assets"
