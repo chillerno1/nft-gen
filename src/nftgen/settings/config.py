@@ -5,6 +5,7 @@ _config = yaml.safe_load(open("config.yaml"))
 
 size = int(_config.get("size"))
 assets_scale = _config.get("assets-scale")
+position_mode = _config.get("position-mode", "PIXELS")
 
 output_dir = _config.get("output-dir")
 assets_dir = _config.get("assets-dir")

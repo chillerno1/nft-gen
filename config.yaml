@@ -1,6 +1,9 @@
 size: 3086
 assets-scale: 1
 
+# PIXELS or PERCENT (of total image size)
+position-mode: PIXELS
+
 output-dir: "./out"
 assets-dir: "./Assets"
 

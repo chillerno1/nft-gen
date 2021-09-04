@@ -10,7 +10,11 @@ class Position:
             anchor_point: Tuple[float, float] = (0.5, 0.5),
             size: Tuple[int, int] = (0, 0),
     ):
-        world_size = config.size
+        world_size = 1
+        if config.position_mode == "PERCENT":
+            world_size = config.size
+        elif config.position_mode == "PIXELS":
+            world_size = 1
 
         self.base_point = base_point
         self.anchor_point = anchor_point
