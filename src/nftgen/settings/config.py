@@ -13,4 +13,5 @@ assets_dir = _config.get("assets-dir")
 background_color = _config.get("background-color")
 shadow_position = eval(_config.get("shadow-position"))
 
-color_placeholder_hue = _config.get("color-placeholder-hue")
+primary_color_sign = _config.get("primary-color-sign")
+accent_color_sign = _config.get("accent-color-sign")

@@ -6,7 +6,7 @@ import yaml
 from nftgen.model.Attribute import Attribute
 from nftgen.settings import config
 from nftgen.settings.AttributeSettings import Slot, AttributeSettings
-from nftgen.settings.ColorSettings import ColorSettings
+from nftgen.settings.ColorTheme import ColorTheme, ColorSettings
 from nftgen.utils.none import get_value_safe, not_none
 
 _attributes_path = "attributes.yaml"
@@ -32,25 +32,51 @@ def get_base_slots() -> List[Slot]:
     return _parse_slots(_slots_section)
 
 
-def get_colors() -> Dict[str, ColorSettings]:
+def get_colors() -> Dict[str, ColorTheme]:
     colors = {}
     for key, value in _colors_section.items():
-        color_code = str(value.get("color")).lstrip("#").zfill(6)
         weight = float(str(value.get("weight", _default_weight)))
+        primary = parse_color_settings(value.get("primary"))
+        accent = parse_color_settings(value.get("accent", value.get("primary")))
 
-        colors[key] = ColorSettings(
+        if primary is None:
+            raise Exception(f"Could not find primary color for {key}")
+        elif accent is None:
+            raise Exception(f"Could not find accent color for {key}")
+
+        colors[key] = ColorTheme(
             name=key,
-            color_code=color_code,
             weight=weight,
+            primary=primary,
+            accent=accent,
         )
     return colors
+
+
+def parse_color_settings(values) -> ColorSettings:
+    color_type = get_value_safe(values, "type", "BASIC")
+    color = values.get("color")
+
+    if color_type.upper() == "GRADIENT":
+        color = tuple(map(str, color.lstrip("(").rstrip(")").split(", ")))
+    else:
+        color = str(color).zfill(6)
+
+    return ColorSettings(
+        type=color_type,
+        color=color,
+    )
+
+
+def string_to_hex_rgb(string: str) -> str:
+    return string.lstrip("#").zfill(6)
 
 
 def get_all_attribute_names(feature: str) -> Set[str]:
     path = f"{config.assets_dir}/{feature}"
     if not os.path.isdir(path):
         return set()
-    file_names = [x for x in os.listdir(path) if _get_extension(x) == ".png"]
+    file_names = [x for x in os.listdir(path) if os.path.isdir(f"{path}/{x}") or _get_extension(x) == ".png"]
     return set(map(_strip_extension, file_names))
 
 
@@ -69,7 +95,7 @@ def _get_settings_from_section(attribute: Attribute, attributes_section: Dict[st
     """
     settings = _get_base_attribute_settings(attribute)
     _populate(settings, get_value_safe(attributes_section, _default_name, {}))
-    _populate(settings, get_value_safe(attributes_section, attribute.name, {}))
+    _populate(settings, get_value_safe(attributes_section, attribute.name_without_color(), {}))
 
     return settings
 
@@ -85,7 +111,7 @@ def _get_base_attribute_settings(attribute: Attribute) -> AttributeSettings:
 
     settings = _get_default_attribute_settings(attribute)
     _populate(settings, get_value_safe(base_section, _default_name, {}))
-    _populate(settings, get_value_safe(base_section, attribute.name, {}))
+    _populate(settings, get_value_safe(base_section, attribute.name_without_color(), {}))
 
     return settings
 

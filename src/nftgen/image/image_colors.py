@@ -1,5 +1,5 @@
 import colorsys
-from typing import Optional
+from typing import Optional, Tuple
 
 from PIL import Image
 import numpy as np
@@ -64,6 +64,18 @@ def _set_hue(arr, hout, match: Optional[ColorMatch] = None):
     return rgb
 
 
+def _set_color(arr, hsv1):
+    hsv = _rgb_to_hsv(arr)
+    for y, a in enumerate(hsv[..., 0]):
+        for x, b in enumerate(a):
+            sat = hsv[y][x][1]
+            val = hsv[y][x][2]
+            alpha = hsv[y][x][3]
+            hsv[y][x] = [hsv1[0], hsv1[1] * sat, hsv1[2] * (val / 255), alpha]
+    rgb = _hsv_to_rgb(hsv)
+    return rgb
+
+
 def _shift_hue(arr, hout, match: Optional[ColorMatch] = None):
     hsv = _rgb_to_hsv(arr)
     for x, a in enumerate(hsv[..., 0]):
@@ -74,13 +86,27 @@ def _shift_hue(arr, hout, match: Optional[ColorMatch] = None):
     return rgb
 
 
-def _rainbowify1(arr, hout):
+def _rainbowify1(arr, hsv1, hsv2):
     hsv = _rgb_to_hsv(arr)
-    for x, a in enumerate(hsv[..., 0]):
-        for y, b in enumerate(a):
-            hsv[..., 0][x][y] = b + 0.5 * y * 0.001
+    x_len = len(hsv[..., 0][0])
+    for y, a in enumerate(hsv[..., 0]):
+        for x, b in enumerate(a):
+            sat = hsv[y][x][1]
+            val = hsv[y][x][2]
+            alpha = hsv[y][x][3]
+            if alpha == 0:
+                continue
+            hsva = [0, 0, 0, alpha]
+            hsva[0] = _fade_between(hsv1[0], hsv2[0], x, x_len)
+            hsva[1] = _fade_between(hsv1[1], hsv2[1], x, x_len) * sat
+            hsva[2] = _fade_between(hsv1[2], hsv2[2], x, x_len) * (val / 255)
+            hsv[y][x] = hsva
     rgb = _hsv_to_rgb(hsv)
     return rgb
+
+
+def _fade_between(start: float, end: float, current: float, max: float) -> float:
+    return start + (end - start) * (current / max)
 
 
 def _rainbowify2(arr):
@@ -92,19 +118,19 @@ def _rainbowify2(arr):
     return rgb
 
 
-def colorize(image, hue, match: Optional[ColorMatch] = None) -> Image:
+def colorize(image, rgb) -> Image:
     """
     Colorize PIL image `original` with the given
     `hue` (hue within 0-360); returns another PIL image.
     """
     img = image.convert("RGBA")
     arr = np.array(img)
-    new_img = Image.fromarray(_set_hue(arr, hue / 360., match), "RGBA")
+    new_img = Image.fromarray(_set_color(arr, rgb_to_hsv(rgb)), "RGBA")
 
     return new_img
 
 
-def rotate_hue(image, rotation, match: Optional[ColorMatch] = None):
+def rotate_hue(image, rotation, match: Optional[ColorMatch] = None) -> Image:
     """
     Rotate the hue of PIL image `original` with the given
     `rotation` (hue within 0-360); returns another PIL image.
@@ -114,6 +140,19 @@ def rotate_hue(image, rotation, match: Optional[ColorMatch] = None):
     new_img = Image.fromarray(_shift_hue(arr, rotation / 360., match), "RGBA")
 
     return new_img
+
+
+def gradient(image, rgb1: str, rgb2: str) -> Image:
+    img = image.convert("RGBA")
+    arr = np.array(img)
+    arr = _rainbowify1(arr, rgb_to_hsv(rgb1), rgb_to_hsv(rgb2))
+    return Image.fromarray(arr, "RGBA")
+
+
+def rgb_to_hsv(rgb: str) -> Tuple[float, float, float]:
+    h = rgb.lstrip("#")
+    rgb = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+    return colorsys.rgb_to_hsv(*rgb)
 
 
 def rgb_to_hue(rgb: str) -> float:

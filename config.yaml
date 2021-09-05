@@ -2,13 +2,14 @@ size: 3086
 assets-scale: 1
 
 # PIXELS or PERCENT (of total image size)
-position-mode: PIXELS
+position-mode: PERCENT
 
 output-dir: "./out"
 assets-dir: "./Assets"
 
-background-color: "#d4c66e"
+background-color: "#00000000"
 shadow-position: (0, 0.31)
 
-# Everything with this hue gets recolored to the one specified by the attribute
-color-placeholder-hue: 60  # 0=red, 120=green, 240=blue
+# Assets with this sign in its name get the primary color
+primary-color-sign: "%"
+accent-color-sign: "&"

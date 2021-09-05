@@ -70,16 +70,23 @@ attribute-settings:
 
 
 colors:
-  Red:
-    color: ff0000
-  Green:
-    color: 00ff00
-  Blue:
-    color: 0000ff
-  Purple:
-    color: ff00ff
-  Orange:
-    color: ffA500
+  Blackout:
+    primary:
+      color: 262626
+  Greenie:
+    primary:
+      color: 00dd00
+  Hot:
+    primary:
+      color: dd0000
+    secondary:
+      color: dddd00
+  Hot Fade:
+    primary:
+      type: GRADIENT
+      color: (ee0000, eeee00)
+    accent:
+      color: ff0000
 
 
 default:
